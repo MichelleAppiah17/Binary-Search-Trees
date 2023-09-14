@@ -1,4 +1,4 @@
-import Tree from "./binary.js";
+const Tree = require("./binary.js");
 
  function generateRandomNumbers(count, max) {
     const randomNumbers = [];
@@ -11,11 +11,11 @@ import Tree from "./binary.js";
   const randomNumbers = generateRandomNumbers(20, 100);
   const newTree = new Tree(randomNumbers);
   
-  console.log("Is Balanced:", newTree.isBalanced());
-  console.log("Level Order:", newTree.levelOrder());
-  console.log("Inorder:", newTree.inorder());
-  console.log("Preorder:", newTree.preorder());
-  console.log("Postorder:", newTree.postorder());
+  console.log("Is Balanced =>", newTree.isBalanced());
+  console.log("Level Order =>", newTree.levelOrder());
+  console.log("Inorder =>", newTree.inorder());
+  console.log("Preorder =>", newTree.preorder());
+  console.log("Postorder =>", newTree.postorder());
   
   const unbalancedNumbers = [150, 160, 170, 180];
   unbalancedNumbers.forEach((num) => newTree.insert(num));
@@ -23,10 +23,11 @@ import Tree from "./binary.js";
   console.log("Is Balanced:", newTree.isBalanced());
   
   newTree.rebalance();
-  
-  console.log("Is Balanced (after rebalance):", newTree.isBalanced());
-  console.log("Level Order (after rebalance):", newTree.levelOrder());
-  console.log("Inorder (after rebalance):", newTree.inorder());
-  console.log("Preorder (after rebalance):", newTree.preorder());
-  console.log("Postorder (after rebalance):", newTree.postorder());
+
+  console.log("After rebalanced :");
+  console.log(newTree.isBalanced());
+  console.log(newTree.levelOrder());
+  console.log(newTree.inorder());
+  console.log(newTree.preorder());
+  console.log(newTree.postorder());
   

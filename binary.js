@@ -1,4 +1,4 @@
-import Node from "./nodes"
+const Node = require("./nodes")
   
   class Tree {
     constructor(array) {
@@ -19,21 +19,6 @@ import Node from "./nodes"
   
       return rootNode;
     }
-  
-    insert(value) {
-      this.root = this.insertNode(this.root, value);
-    }
-  
-    delete(value) {
-      this.root = this.deleteNode(this.root, value);
-    }
-  
-  
-    find(value) {
-      return this.findNode(this.root, value);
-    }
-  
-   
 
     levelOrder() {
       if (this.root) {
@@ -60,21 +45,28 @@ import Node from "./nodes"
     }
   
   
-    findHeight(node) {
-        if (!this.root) return 
-        "This tree is empty";
-        if (!node) return 0;
-        if (!(node instanceof Node)) 
-        return "Data not found in this tree";
-        const leavesArr = node.findLeavesNode(node);
-        const nodeDepth = this.findDepth(node.data);
-        return this.root.findHeightNode(leavesArr, nodeDepth);
+    height(node = this.root) {
+      if (node === null) return 0;
+  
+      const leftHeight = this.height(node.leftChild);
+      const rightHeight = this.height(node.rightChild);
+  
+      return Math.max(leftHeight, rightHeight) + 1;
     }
     
-    findDepth(nodeData) {
-        if (!this.root) {
-          return -1;
-        } else return this.root.findDepthNode(nodeData);
+    depth(node) {
+      if (node === null) {
+        return 0;
+      }
+  
+      let depth = 0;
+      let current = node;
+      while (current !== null) {
+        depth++;
+        current = current.parent;
+      }
+  
+      return depth;
     }
     
   
@@ -103,4 +95,4 @@ import Node from "./nodes"
     }
   }
   
-  export default Tree;
+  module.exports = Tree;

@@ -1,3 +1,4 @@
+
 class Node {
     constructor(data) {
       this.data = data;
@@ -5,47 +6,55 @@ class Node {
       this.right = null;
     }
 
-    insertNode(node, value) {
-        if (node === null) {
-          return new Node(value);
+    insertNode(currentNode = this.root, value) {
+        if (currentNode === null) {
+          return new Node(value)
         }
     
-        if (value < node.data) {
-          node.left = this.insertNode(node.left, value);
-        } else if (value > node.data) {
-          node.right = this.insertNode(node.right, value);
+        if (currentNode.value > value) {
+          currentNode.left = this.insertNode(currentNode.left, value);
+        } else if (value > currentNode.value) {
+          currentNode.right = this.insertNode(currentNode.right, value);
         }
-    
-        return node;
+
+        return currentNode;
     }
 
-    deleteNode(node, value) {
-        if (node === null) {
+    deleteNode(currentNode = this.root, value) {
+        if (currentNode === null) {
           return null;
         }
-    
-        if (value < node.data) {
-          node.left = this.deleteNode(node.left, value);
-        } else if (value > node.data) {
-          node.right = this.deleteNode(node.right, value);
+        if (currentNode.value > value) {
+          currentNode.left = this.deleteNode(currentNode.left, value);
+        } else if (currentNode.value < value) {
+          currentNode.right = this.deleteNode(currentNode.right, value);
         } else {
-          if (node.left === null && node.right === null) {
-            node = null;
-          } else if (node.left === null) {
-            node = node.right;
-          } else if (node.right === null) {
-            node = node.left;
+          if (currentNode.left === null && currentNode.right === null) {
+            currentNode = null;
+          } else if (currentNode.left === null) {
+           currentNode = currentNode.right;
+          } else if (currentNode.right === null) {
+            currentNode = currentNode.left;
           } else {
-            const minRightNode = this.findMin(node.right);
-            node.data = minRightNode.data;
-            node.right = this.deleteNode(node.right, minRightNode.data);
+            const minRightNode = this.findMin(currentNode.right);
+            currentNode.value = minRightNode.value;
+            currentNode.right = this.deleteNode(currentNode.right, minRightNode.value);
           }
         }
     
-        return node;
-      
+        return currentNode;
     }
 
+    find(value, node = this.root) {
+      if (node === null || node.value === value) return node;
+  
+      if (node.value < value) {
+        return this.find(value, node.rightChild);
+      } else {
+        return this.find(value, node.leftChild);
+      }
+    }
+    
     findMin(node) {
         while (node.left !== null) {
           node = node.left;
@@ -53,19 +62,6 @@ class Node {
         return node;
     }
 
-    findNode(data) {
-        let node;
-        if (data === this.data) return (node = this);
-        else if (data < this.data && this.left) {
-          node = this.left.findNode(data);
-          return node;
-        } else if (data > this.data && this.right) {
-          node = this.right.findNode(data);
-          return node;
-        }
-        return "Data not found in this tree";
-    }
-    
     levelOrderNode(callback) {
         let current = this;
         const queue = [current];
@@ -122,21 +118,7 @@ class Node {
           result.push(node.data);
         }
     }
-
-    findHeightNode(leavesArr, nodeDepth) {
-        leavesArr = leavesArr.map((node) => this.findDepthNode(node.data));
-        const deepest = Math.max(...leavesArr);
-        return deepest - nodeDepth;
-    }
-    
-    findDepthNode(data, height = -1) {
-        height++;
-        if (data === this.data) return height;
-        else if (data < this.data && this.left) return this.left.findDepthNode(data, height);
-        else if (data > this.data && this.right) return this.right.findDepthNode(data, height);
-        return "Data not found in this tree";
-    }
    
   }
 
-  export default Node;
+  module.exports = Node;
